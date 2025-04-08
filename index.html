@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthCare Plus - Virtual Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #1976D2;
+            --primary-light: #64B5F6;
+            --primary-dark: #0D47A1;
+            --secondary-color: #26A69A;
+            --text-color: #333;
+            --light-gray: #F5F5F5;
+            --medium-gray: #E0E0E0;
+            --dark-gray: #9E9E9E;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: var(--primary-color);
+            font-size: 24px;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .main-content {
+            margin-top: 80px;
+            padding: 20px;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .welcome-card h2 {
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+        }
+
+        .welcome-card p {
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            width: 180px;
+            text-align: center;
+            transition: var(--transition);
+            animation: slideUp 0.5s ease-in-out;
+            animation-fill-mode: both;
+        }
+
+        .feature-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .feature-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .feature-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card i {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--primary-dark);
+        }
+
+        .feature-card p {
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+
+        /* Chat Widget Styles */
+        .chat-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chat-toggle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-toggle i {
+            font-size: 24px;
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-window.active {
+            transform: scale(1);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--white);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-header h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .chat-header .close-chat {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 18px;
+            animation: fadeIn 0.3s ease;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .bot-message {
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        .user-message {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: var(--white);
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            align-self: flex-start;
+            background-color: var(--light-gray);
+            padding: 10px 15px;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .typing-indicator span {
+            height: 8px;
+            width: 8px;
+            background-color: var(--dark-gray);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: typing 1s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+            margin-right: 0;
+        }
+
+        .quick-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            align-self: flex-start;
+        }
+
+        .quick-option {
+            background-color: var(--white);
+            border: 1px solid var(--primary-light);
+            color: var(--primary-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quick-option:hover {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+
+        .chat-footer {
+            padding: 10px 15px;
+            border-top: 1px solid var(--medium-gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .chat-input:focus {
+            box-shadow: 0 0 0 2px var(--primary-light);
+        }
+
+        .send-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-left: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.8);
+                opacity: 0.6;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .chat-window {
+                width: 300px;
+                height: 450px;
+                bottom: 80px;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-card {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-window {
+                width: calc(100vw - 40px);
+                height: 400px;
+            }
+
+            .welcome-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                <h1>HealthCare Plus</h1>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="welcome-card">
+            <h2>Welcome to HealthCare Plus</h2>
+            <p>Your health is our priority. Our AI-powered virtual assistant is here to help you with appointments, answer your questions, and provide basic medical guidance.</p>
+            <p>Click the chat icon in the bottom right to get started!</p>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="far fa-calendar-check"></i>
+                <h3>Appointments</h3>
+                <p>Schedule and manage your appointments with ease</p>
+            </div>
+            <div class="feature-card">
+                <i class="far fa-question-circle"></i>
+                <h3>FAQs</h3>
+                <p>Get answers to your common questions</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-notes-medical"></i>
+                <h3>Medical Guidance</h3>
+                <p>Receive basic medical advice for common symptoms</p>
+            </div>
+        </div>
+    </main>
+
+    <div class="chat-widget">
+        <div class="chat-toggle">
+            <i class="fas fa-comments"></i>
+        </div>
+        <div class="chat-window">
+            <div class="chat-header">
+                <h3>HealthCare Assistant</h3>
+                <div class="close-chat">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+            <div class="chat-body">
+                <!-- Messages will be added here dynamically -->
+            </div>
+            <div class="chat-footer">
+                <input type="text" class="chat-input" placeholder="Type your message here...">
+                <button class="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock Data
+        const mockData = {
+            patients: [
+                { id: "patient_001", name: "John Doe", email: "john.doe@email.com", phone: "555-123-4567" },
+                { id: "patient_002", name: "Jane Smith", email: "jane.smith@email.com", phone: "555-987-6543" },
+                { id: "patient_003", name: "Robert Johnson", email: "robert.j@email.com", phone: "555-456-7890" },
+                { id: "patient_004", name: "Emily Davis", email: "emily.d@email.com", phone: "555-789-0123" },
+                { id: "patient_005", name: "Michael Wilson", email: "michael.w@email.com", phone: "555-321-6547" }
+            ],
+            appointments: [
+                { id: "apt_001", date: "2025-04-15", time: "09:00 AM", doctor: "Dr. Smith", type: "General Checkup", available: true },
+                { id: "apt_002", date: "2025-04-15", time: "10:30 AM", doctor: "Dr. Smith", type: "General Checkup", available: true },
+                { id: "apt_003", date: "2025-04-15", time: "02:00 PM", doctor: "Dr. Johnson", type: "Dental Checkup", available: true },
+                { id: "apt_004", date: "2025-04-16", time: "11:00 AM", doctor: "Dr. Williams", type: "Specialist Consultation", available: true },
+                { id: "apt_005", date: "2025-04-16", time: "03:30 PM", doctor: "Dr. Brown", type: "General Checkup", available: true },
+                { id: "apt_006", date: "2025-04-17", time: "09:30 AM", doctor: "Dr. Davis", type: "Dental Checkup", available: true },
+                { id: "apt_007", date: "2025-04-17", time: "01:00 PM", doctor: "Dr. Smith", type: "General Checkup", available: true },
+                { id: "apt_008", date: "2025-04-18", time: "10:00 AM", doctor: "Dr. Johnson", type: "Specialist Consultation", available: true },
+                { id: "apt_009", date: "2025-04-18", time: "02:30 PM", doctor: "Dr. Williams", type: "General Checkup", available: true },
+                { id: "apt_010", date: "2025-04-19", time: "11:30 AM", doctor: "Dr. Brown", type: "Dental Checkup", available: true }
+            ],
+            faqs: [
+                {
+                    question: "What are your operating hours?",
+                    answer: "We are open Monday to Friday, 9:00 AM to 5:00 PM, and Saturday from 9:00 AM to 12:00 PM. We are closed on Sundays and public holidays."
+                },
+                {
+                    question: "How do I schedule an appointment?",
+                    answer: "You can schedule an appointment through our website, by calling our office at 555-HEALTH, or by chatting with our virtual assistant."
+                },
+                {
+                    question: "What insurance plans do you accept?",
+                    answer: "We accept most major insurance plans including BlueCross, Aetna, Cigna, and Medicare. Please contact our office for specific details about your plan."
+                },
+                {
+                    question: "How do I cancel or reschedule an appointment?",
+                    answer: "To cancel or reschedule, please call us at least 24 hours in advance at 555-HEALTH or use our online portal."
+                },
+                {
+                    question: "Do you offer telehealth services?",
+                    answer: "Yes, we offer telehealth consultations for certain types of appointments. Please ask when scheduling if your appointment type is eligible."
+                },
+                {
+                    question: "How do I refill my prescription?",
+                    answer: "You can request prescription refills through our patient portal, by calling our pharmacy line at 555-PHARM, or by contacting your pharmacy directly."
+                },
+                {
+                    question: "How do I access my medical records?",
+                    answer: "You can access your medical records through our secure patient portal. If you need assistance, please call our office at 555-HEALTH."
+                }
+            ],
+            medicalGuidance: [
+                {
+                    symptom: "fever",
+                    guidance: "For a fever, stay hydrated and rest. Take over-the-counter fever reducers like acetaminophen or ibuprofen as directed. Consult a doctor if it exceeds 100.4°F (38°C) for more than 48 hours or is accompanied by severe symptoms."
+                },
+                {
+                    symptom: "headache",
+                    guidance: "For headaches, rest in a quiet, dark room and try over-the-counter pain relievers. Stay hydrated and consider applying a cold or warm compress. Consult a doctor if the headache is severe, sudden, or accompanied by other symptoms."
+                },
+                {
+                    symptom: "cough",
+                    guidance: "For a cough, stay hydrated and use honey (if over 1 year old) or over-the-counter cough suppressants. Use a humidifier if available. Consult a doctor if the cough persists for more than a week or is accompanied by difficulty breathing."
+                },
+                {
+                    symptom: "sore throat",
+                    guidance: "For a sore throat, gargle with warm salt water, use throat lozenges, and take over-the-counter pain relievers. Stay hydrated and rest your voice. Consult a doctor if it persists for more than a week or is accompanied by high fever."
+                },
+                {
+                    symptom: "nausea",
+                    guidance: "For nausea, eat small, bland meals and stay hydrated with clear fluids. Avoid strong odors and greasy foods. Consult a doctor if nausea persists for more than 48 hours or is accompanied by severe vomiting or abdominal pain."
+                }
+            ]
+        };
+
+        // Chat Variables
+        let conversationState = {
+            intent: null,
+            step: 0,
+            appointmentType: null,
+            appointmentDate: null,
+            selectedAppointment: null,
+            symptom: null,
+            currentQuestion: null
+        };
+
+        // DOM Elements
+        const chatToggle = document.querySelector('.chat-toggle');
+        const chatWindow = document.querySelector('.chat-window');
+        const closeChat = document.querySelector('.close-chat');
+        const chatBody = document.querySelector('.chat-body');
+        const chatInput = document.querySelector('.chat-input');
+        const sendBtn = document.querySelector('.send-btn');
+
+        // Event Listeners
+        chatToggle.addEventListener('click', toggleChat);
+        closeChat.addEventListener('click', toggleChat);
+        sendBtn.addEventListener('click', handleSendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSendMessage();
+            }
+        });
+
+        // Initialize Chat
+        function initChat() {
+            // Add welcome message
+            setTimeout(() => {
+                addBotMessage("Hello! I'm your HealthCare Plus virtual assistant. How can I help you today?");
+                setTimeout(() => {
+                    addQuickOptions([
+                        "Book Appointment",
+                        "Ask a Question",
+                        "Get Medical Advice"
+                    ]);
+                }, 500);
+            }, 500);
+        }
+
+        // Toggle Chat Window
+        function toggleChat() {
+            chatWindow.classList.toggle('active');
+            if (chatWindow.classList.contains('active') && chatBody.children.length === 0) {
+                initChat();
+            }
+        }
+
+        // Handle Send Message
+        function handleSendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addUserMessage(message);
+                chatInput.value = '';
+                processUserInput(message);
+            }
+        }
+
+        // Add User Message
+        function addUserMessage(message) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', 'user-message');
+            messageElement.textContent = message;
+            chatBody.appendChild(messageElement);
+            scrollToBottom();
+        }
+
+        // Add Bot Message
+        function addBotMessage(message) {
+            const typingIndicator = document.createElement('div');
+            typingIndicator.classList.add('typing-indicator');
+            typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+            chatBody.appendChild(typingIndicator);
+            scrollToBottom();
+
+            setTimeout(() => {
+                chatBody.removeChild(typingIndicator);
+                const messageElement = document.createElement('div');
+                messageElement.classList.add('message', 'bot-message');
+                messageElement.textContent = message;
+                chatBody.appendChild(messageElement);
+                scrollToBottom();
+            }, 1000);
+        }
+
+        // Add Quick Options
+        function addQuickOptions(options) {
+            const optionsContainer = document.createElement('div');
+            optionsContainer.classList.add('quick-options');
+
+            options.forEach(option => {
+                const optionButton = document.createElement('button');
+                optionButton.classList.add('quick-option');
+                optionButton.textContent = option;
+                optionButton.addEventListener('click', () => {
+                    addUserMessage(option);
+                    processUserInput(option);
+                });
+                optionsContainer.appendChild(optionButton);
+            });
+
+            chatBody.appendChild(optionsContainer);
+            scrollToBottom();
+        }
+
+        // Process User Input
+        function processUserInput(input) {
+            // Convert input to lowercase for easier matching
+            const lowerInput = input.toLowerCase();
+
+            // If we're in the middle of a conversation flow
+            if (conversationState.intent) {
+                continueConversation(lowerInput);
+                return;
+            }
+
+            // Determine intent from initial input
+            if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('schedule')) {
+                conversationState.intent = 'appointment';
+                conversationState.step = 1;
+                handleAppointmentBooking();
+            } else if (lowerInput.includes('question') || lowerInput.includes('faq') || lowerInput.includes('ask')) {
+                conversationState.intent = 'faq';
+                conversationState.step = 1;
+                handleFAQ();
+            } else if (lowerInput.includes('medical') || lowerInput.includes('advice') || lowerInput.includes('symptom') || lowerInput.includes('health')) {
+                conversationState.intent = 'medical';
+                conversationState.step = 1;
+                handleMedicalAdvice();
+            } else {
+                // Fallback response
+                addBotMessage("I'm sorry, I didn't understand that. Could you please rephrase or choose an option:");
+                addQuickOptions([
+                    "Book Appointment",
+                    "Ask a Question",
+                    "Get Medical Advice"
+                ]);
+            }
+        }
+
+        // Continue Conversation Based on Intent
+        function continueConversation(input) {
+            switch (conversationState.intent) {
+                case 'appointment':
+                    continueAppointmentBooking(input);
+                    break;
+                case 'faq':
+                    continueFAQ(input);
+                    break;
+                case 'medical':
+                    continueMedicalAdvice(input);
+                    break;
+            }
+        }
+
+        // Handle Appointment Booking
+        function handleAppointmentBooking() {
+            addBotMessage("I'd be happy to help you book an appointment. What type of appointment are you looking for?");
+            addQuickOptions([
+                "General Checkup",
+                "Dental Checkup",
+                "Specialist Consultation"
+            ]);
+        }
+
+        // Continue Appointment Booking
+        function continueAppointmentBooking(input) {
+            switch (conversationState.step) {
+                case 1: // Appointment type selection
+                    if (input.includes('general') || input.includes('dental') || input.includes('specialist')) {
+                        conversationState.appointmentType = input.includes('general') ? 'General Checkup' : 
+                                                          input.includes('dental') ? 'Dental Checkup' : 'Specialist Consultation';
+                        conversationState.step = 2;
+                        
+                        // Show available dates
+                        const availableDates = [...new Set(mockData.appointments
+                            .filter(apt => apt.type === conversationState.appointmentType && apt.available)
+                            .map(apt => apt.date))];
+                        
+                        if (availableDates.length > 0) {
+                            addBotMessage(`Great! We have appointments available for ${conversationState.appointmentType} on the following dates. Please select one:`);
+                            addQuickOptions(availableDates.map(date => {
+                                const dateObj = new Date(date);
+                                return dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                            }));
+                        } else {
+                            addBotMessage("I'm sorry, there are no available appointments for that type at the moment. Would you like to try another type of appointment?");
+                            conversationState.step = 1;
+                            addQuickOptions([
+                                "General Checkup",
+                                "Dental Checkup",
+                                "Specialist Consultation"
+                            ]);
+                        }
+                    } else {
+                        addBotMessage("I didn't catch that. Please select one of the following appointment types:");
+                        addQuickOptions([
+                            "General Checkup",
+                            "Dental Checkup",
+                            "Specialist Consultation"
+                        ]);
+                    }
+                    break;
+                
+                case 2: // Date selection
+                    // Convert input to a date object for comparison
+                    const selectedDateStr = input.toLowerCase();
+                    const availableDates = [...new Set(mockData.appointments
+                        .filter(apt => apt.type === conversationState.appointmentType && apt.available)
+                        .map(apt => apt.date))];
+                    
+                    let matchedDate = null;
+                    for (const date of availableDates) {
+                        const dateObj = new Date(date);
+                        const formattedDate = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }).toLowerCase();
+                        if (selectedDateStr.includes(formattedDate) || formattedDate.includes(selectedDateStr)) {
+                            matchedDate = date;
+                            break;
+                        }
+                    }
+                    
+                    if (matchedDate) {
+                        conversationState.appointmentDate = matchedDate;
+                        conversationState.step = 3;
+                        
+                        // Show available times for the selected date
+                        const availableTimes = mockData.appointments
+                            .filter(apt => apt.date === matchedDate && apt.type === conversationState.appointmentType && apt.available)
+                            .map(apt => `${apt.time} - ${apt.doctor}`);
+                        
+                        addBotMessage(`Please select an available time slot for ${new Date(matchedDate).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}:`);
+                        addQuickOptions(availableTimes);
+                    } else {
+                        addBotMessage("I couldn't recognize that date. Please select one of the following available dates:");
+                        addQuickOptions(availableDates.map(date => {
+                            const dateObj = new Date(date);
+                            return dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                        }));
+                    }
+                    break;
+                
+                case 3: // Time slot selection
+                    const timePattern = /(\d{1,2}:\d{2}\s*[AP]M)/i;
+                    const timeMatch = input.match(timePattern);
+                    
+                    if (timeMatch) {
+                        const selectedTime = timeMatch[0];
+                        const selectedAppointment = mockData.appointments.find(apt => 
+                            apt.date === conversationState.appointmentDate && 
+                            apt.type === conversationState.appointmentType && 
+                            apt.time === selectedTime &&
+                            apt.available
+                        );
+                        
+                        if (selectedAppointment) {
+                            conversationState.selectedAppointment = selectedAppointment;
+                            conversationState.step = 4;
+                            
+                            addBotMessage(`Great! I've reserved a ${conversationState.appointmentType} appointment with ${selectedAppointment.doctor} on ${new Date(selectedAppointment.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} at ${selectedAppointment.time}.`);
+                            
+                            // Ask for confirmation
+                            addBotMessage("Would you like to confirm this appointment?");
+                            addQuickOptions(["Yes, confirm", "No, cancel"]);
+                        } else {
+                            addBotMessage("I'm sorry, that time slot is not available. Please select one of the following:");
+                            
+                            const availableTimes = mockData.appointments
+                                .filter(apt => apt.date === conversationState.appointmentDate && apt.type === conversationState.appointmentType && apt.available)
+                                .map(apt => `${apt.time} - ${apt.doctor}`);
+                            
+                            addQuickOptions(availableTimes);
+                        }
+                    } else {
+                        addBotMessage("I couldn't recognize that time. Please select one of the following available times:");
+                        
+                        const availableTimes = mockData.appointments
+                            .filter(apt => apt.date === conversationState.appointmentDate && apt.type === conversationState.appointmentType && apt.available)
+                            .map(apt => `${apt.time} - ${apt.doctor}`);
+                        
+                        addQuickOptions(availableTimes);
+                    }
+                    break;
+                
+                case 4: // Confirmation
+                    if (input.includes('yes') || input.includes('confirm')) {
+                        // In a real application, this would update the database
+                        addBotMessage(`Perfect! Your appointment has been confirmed. You will receive a confirmation email shortly. Your appointment details:
+                        
+Type: ${conversationState.appointmentType}
+Doctor: ${conversationState.selectedAppointment.doctor}
+Date: ${new Date(conversationState.selectedAppointment.date).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
+Time: ${conversationState.selectedAppointment.time}
+                        
+Is there anything else I can help you with today?`);
+                        
+                        // Reset conversation state
+                        resetConversation();
+                        
+                        // Offer new options
+                        setTimeout(() => {
+                            addQuickOptions([
+                                "Book Another Appointment",
+                                "Ask a Question",
+                                "Get Medical Advice"
+                            ]);
+                        }, 1000);
+                    } else {
+                        addBotMessage("I've cancelled this appointment request. Would you like to start over or try something else?");
+                        resetConversation();
+                        
+                        setTimeout(() => {
+                            addQuickOptions([
+                                "Book Appointment",
+                                "Ask a Question",
+                                "Get Medical Advice"
+                            ]);
+                        }, 500);
+                    }
+                    break;
+            }
+        }
+
+        // Handle FAQ
+        function handleFAQ() {
+            addBotMessage("What question can I help you with today? You can ask about our services, operating hours, insurance, or choose from these common questions:");
+            
+            const commonQuestions = mockData.faqs.slice(0, 4).map(faq => faq.question);
+            addQuickOptions(commonQuestions);
+        }
+
+        // Continue FAQ
+        function continueFAQ(input) {
+            // Try to match the input to one of our FAQs
+            let bestMatch = null;
+            let highestScore = 0;
+            
+            for (const faq of mockData.faqs) {
+                const question = faq.question.toLowerCase();
+                const score = similarityScore(input, question);
+                
+                if (score > highestScore && score > 0.3) { // Threshold for matching
+                    highestScore = score;
+                    bestMatch = faq;
+                }
+            }
+            
+            if (bestMatch) {
+                addBotMessage(bestMatch.answer);
+                
+                setTimeout(() => {
+                    addBotMessage("Is there anything else you'd like to know?");
+                    const otherQuestions = mockData.faqs
+                        .filter(faq => faq.question !== bestMatch.question)
+                        .slice(0, 3)
+                        .map(faq => faq.question);
+                    
+                    addQuickOptions([...otherQuestions, "Back to Main Menu"]);
+                }, 1000);
+            } else if (input.includes('back') || input.includes('main menu')) {
+                resetConversation();
+                addBotMessage("What would you like to do?");
+                addQuickOptions([
+                    "Book Appointment",
+                    "Ask a Question",
+                    "Get Medical Advice"
+                ]);
+            } else {
+                addBotMessage("I'm sorry, I don't have information on that specific question. Here are some topics I can help with:");
+                addQuickOptions([
+                    "Operating Hours",
+                    "Insurance Plans",
+                    "Appointment Scheduling",
+                    "Back to Main Menu"
+                ]);
+            }
+        }
+
+        // Handle Medical Advice
+        function handleMedicalAdvice() {
+            addBotMessage("I can provide basic guidance for common symptoms. What symptom are you experiencing?");
+            
+            const commonSymptoms = mockData.medicalGuidance.map(item => item.symptom);
+            addQuickOptions(commonSymptoms);
+        }
+
+        // Continue Medical Advice
+        function continueMedicalAdvice(input) {
+            // Try to match the input to one of our symptoms
+            let bestMatch = null;
+            
+            for (const guidance of mockData.medicalGuidance) {
+                if (input.includes(guidance.symptom)) {
+                    bestMatch = guidance;
+                    break;
+                }
+            }
+            
+            if (bestMatch) {
+                addBotMessage(bestMatch.guidance);
+                
+                setTimeout(() => {
+                    addBotMessage("Please remember that this is general guidance only and not a substitute for professional medical advice. Would you like information about another symptom or would you like to book an appointment with a doctor?");
+                    
+                    const otherSymptoms = mockData.medicalGuidance
+                        .filter(item => item.symptom !== bestMatch.symptom)
+                        .slice(0, 2)
+                        .map(item => item.symptom);
+                    
+                    addQuickOptions([...otherSymptoms, "Book Appointment", "Back to Main Menu"]);
+                }, 1000);
+            } else if (input.includes('book') || input.includes('appointment')) {
+                conversationState.intent = 'appointment';
+                conversationState.step = 1;
+                handleAppointmentBooking();
+            } else if (input.includes('back') || input.includes('main menu')) {
+                resetConversation();
+                addBotMessage("What would you like to do?");
+                addQuickOptions([
+                    "Book Appointment",
+                    "Ask a Question",
+                    "Get Medical Advice"
+                ]);
+            } else {
+                addBotMessage("I'm sorry, I don't have specific guidance for that symptom. Here are some common symptoms I can provide information about:");
+                addQuickOptions([
+                    "Fever",
+                    "Headache",
+                    "Cough",
+                    "Back to Main Menu"
+                ]);
+            }
+        }
+
+        // Reset Conversation State
+        function resetConversation() {
+            conversationState = {
+                intent: null,
+                step: 0,
+                appointmentType: null,
+                appointmentDate: null,
+                selectedAppointment: null,
+                symptom: null,
+                currentQuestion: null
+            };
+        }
+
+        // Utility function to calculate similarity between two strings
+        function similarityScore(str1, str2) {
+            str1 = str1.toLowerCase();
+            str2 = str2.toLowerCase();
+            
+            // Simple word matching
+            const words1 = str1.split(/\s+/);
+            const words2 = str2.split(/\s+/);
+            
+            let matches = 0;
+            for (const word1 of words1) {
+                if (word1.length < 3) continue; // Skip short words
+                
+                for (const word2 of words2) {
+                    if (word2.length < 3) continue;
+                    
+                    if (word1 === word2 || word1.includes(word2) || word2.includes(word1)) {
+                        matches++;
+                        break;
+                    }
+                }
+            }
+            
+            return matches / Math.max(words1.length, words2.length);
+        }
+
+        // Scroll chat to bottom
+        function scrollToBottom() {
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // Initialize chat toggle animation
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                chatToggle.classList.add('pulse');
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
